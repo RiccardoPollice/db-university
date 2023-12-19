@@ -1,0 +1,76 @@
+-- Creo il database
+create database db_university_schema;
+
+-- Uso il database
+use database db_university_schema;
+
+-- Creazione tabella Departments
+create table `deparments` (
+    `id` INT not null auto_increment unique,
+    `address` varchar(255) not null,
+	`phone` varchar(20) not null,
+	`email` varchar(100) not null,
+	`head_of_department` VARCHAR(100) not null,
+	
+	primary key (`id`)
+   );
+  
+  -- Creazione tabella Degrees
+  create table `degrees` (
+    `id` int not null auto_increment unique,
+    `name` varchar(255) not null,
+    `level` varchar(255) not null,
+	`address` varchar(255) not null,
+	`email` varchar(100) not null,
+	`website` varchar(255)not null,
+	
+	primary key (`id`)
+    );
+   
+   -- Creazione tabella Students
+   create table `students`(
+   `id` int not null auto_increment unique,
+   `name` varchar(255) not null,
+   `surname` varchar(255) not null,
+   `date_of_birth` date not null,
+   `fiscal_code` char(16) not null,
+   `enrolment_date` date not null,
+   `registration_number` int not null,
+   `email` varchar(100) not null,
+
+    primary key (`id`)
+);
+
+-- modifico la tabella degrees per aggiungere la FK
+alter table `degrees`
+add column `department_id` INT;
+
+alter table `degrees`
+add foreign key (`department_id`) references `departments`(`id`);
+
+-- modifico la tabella students per aggiungere la FK
+alter table `students`
+add column `degree_id` INT;
+
+alter table `students`
+add foreign key (`degree_id`) references `degrees`(`id`);
+
+-- aggiungo la colonna name alla tabella departments dopo l'id
+alter table `departments`
+add name varchar(255) not null after id;
+
+-- inserisco  record nella tabella departments
+insert into  departments (name, address, phone, email, website, head_of_department)
+values ('Matematica', 'Via Chiaia 15', '0815566895', 'matematica@gmail.com', 'www.math.com', 'Prof. Math');
+
+-- inserisco  record nella tabella degrees
+insert into degrees (name, `level`, address, email, website, department_id)
+values ('Laurea in Scienze della Comunicazione', 'Triennale', 'Corso Vittorio Emanuele 250', 'unisob@gmail.com', 'www.unisob.com', 2);
+
+-- inserisco 5 record nella tabella students
+insert into students (name, surname, date_of_birth, fiscal_code, enrolment_date, registration_number, email, degree_id)
+values('Riccardo', 'Pollice', '1996-03-05', 'RCRPLLERE521', '2020-07-25', 175, 'rp@gmail.com', 2);
+  
+
+ 
+
